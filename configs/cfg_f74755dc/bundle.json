@@ -1,0 +1,235 @@
+{
+  "version": 1,
+  "generated_at": 1763863469,
+  "files": [
+    {
+      "path": "xray/01_log.json",
+      "kind": "json",
+      "content": {
+        "log": {
+          "access": "/opt/var/log/xray/access.log",
+          "error": "/opt/var/log/xray/error.log",
+          "loglevel": "none"
+        }
+      }
+    },
+    {
+      "path": "xray/02_dns.json",
+      "kind": "json",
+      "content": {}
+    },
+    {
+      "path": "xray/03_inbounds.json",
+      "kind": "json",
+      "content": {
+        "inbounds": [
+          {
+            "tag": "tproxy",
+            "port": 61219,
+            "protocol": "dokodemo-door",
+            "settings": {
+              "network": "tcp,udp",
+              "followRedirect": true
+            },
+            "streamSettings": {
+              "sockopt": {
+                "tproxy": "tproxy"
+              }
+            },
+            "sniffing": {
+              "routeOnly": true,
+              "enabled": true,
+              "destOverride": [
+                "http",
+                "tls",
+                "quic"
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "path": "xray/05_routing.json",
+      "kind": "json",
+      "content": {
+        "routing": {
+          "domainStrategy": "IPIfNonMatch",
+          "rules": [
+            {
+              "inboundTag": [
+                "redirect",
+                "tproxy"
+              ],
+              "network": "udp",
+              "outboundTag": "vless-reality",
+              "port": "3478-3480,3659,50000-50050,14000-14016,18000,20000-27200,21000-21500,23000-24000",
+              "type": "field"
+            },
+            {
+              "inboundTag": [
+                "redirect",
+                "tproxy"
+              ],
+              "network": "tcp",
+              "outboundTag": "vless-reality",
+              "port": "27014-27050,27015-27030",
+              "type": "field"
+            },
+            {
+              "domain": [
+                "ext:geosite_zkeen.dat:domains",
+                "ext:geosite_zkeen.dat:other",
+                "ext:geosite_zkeen.dat:youtube",
+                "domain:dis.gd",
+                "domain:disboard.org",
+                "domain:discord-activities.com",
+                "domain:discord.center",
+                "domain:discord.co",
+                "domain:discord.com",
+                "domain:discord.design"
+              ],
+              "inboundTag": [
+                "redirect",
+                "tproxy"
+              ],
+              "outboundTag": "vless-reality",
+              "type": "field"
+            },
+            {
+              "inboundTag": [
+                "redirect",
+                "tproxy"
+              ],
+              "ip": [
+                "138.128.136.0/21",
+                "162.158.0.0/15",
+                "172.64.0.0/13",
+                "34.0.0.0/15",
+                "34.2.0.0/16",
+                "34.3.0.0/23",
+                "34.3.2.0/24",
+                "35.192.0.0/12",
+                "35.208.0.0/12",
+                "35.224.0.0/12",
+                "35.240.0.0/13",
+                "5.200.14.128/25",
+                "66.22.192.0/18",
+                "104.16.0.0/12",
+                "13.200.0.0/13",
+                "13.208.0.0/12",
+                "13.224.0.0/12",
+                "13.24.0.0/13",
+                "13.32.0.0/12",
+                "13.48.0.0/13",
+                "13.56.0.0/14",
+                "143.204.0.0/16",
+                "18.128.0.0/9",
+                "18.32.0.0/11",
+                "18.64.0.0/10",
+                "188.114.96.0/22",
+                "204.11.56.0/23",
+                "23.227.32.0/19",
+                "3.128.0.0/9",
+                "ext:geoip_zkeenip.dat:akamai",
+                "ext:geoip_zkeenip.dat:amazon",
+                "ext:geoip_zkeenip.dat:cdn77",
+                "ext:geoip_zkeenip.dat:cloudflare",
+                "ext:geoip_zkeenip.dat:fastly",
+                "ext:geoip_zkeenip.dat:discord",
+                "ext:geoip_zkeenip.dat:meta",
+                "ext:geoip_zkeenip.dat:telegram",
+                "ext:geoip_zkeenip.dat:youtube",
+                "ext:geoip_zkeenip.dat:google",
+                "162.254.192.0/18",
+                "208.64.200.0/21",
+                "208.64.202.0/24",
+                "208.64.203.0/24",
+                "208.64.204.0/23",
+                "208.64.206.0/23",
+                "208.64.208.0/22",
+                "208.64.212.0/22",
+                "208.64.216.0/21",
+                "23.32.0.0/11",
+                "23.64.0.0/14",
+                "23.192.0.0/12",
+                "2.22.0.0/15",
+                "96.17.0.0/16",
+                "34.248.0.0/13",
+                "52.28.64.0/19",
+                "104.160.131.0/24",
+                "172.65.212.0/24",
+                "137.221.0.0/16",
+                "8.252.0.0/15",
+                "104.255.105.0/24",
+                "92.223.0.0/16"
+              ],
+              "outboundTag": "vless-reality",
+              "type": "field"
+            },
+            {
+              "inboundTag": [
+                "redirect",
+                "tproxy"
+              ],
+              "outboundTag": "direct",
+              "protocol": [
+                "bittorrent"
+              ],
+              "type": "field"
+            },
+            {
+              "inboundTag": [
+                "redirect",
+                "tproxy"
+              ],
+              "ip": [
+                "127.0.0.0/8",
+                "10.0.0.0/8",
+                "172.16.0.0/12",
+                "192.168.0.0/16",
+                "169.254.0.0/16",
+                "ext:geoip_zkeenip.dat:ru"
+              ],
+              "outboundTag": "direct",
+              "type": "field"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "path": "xray/06_policy.json",
+      "kind": "json",
+      "content": {
+        "policy": {
+          "levels": {
+            "0": {
+              "uplinkOnly": 0,
+              "downlinkOnly": 0
+            }
+          }
+        }
+      }
+    },
+    {
+      "path": "xkeen/port_proxying.lst",
+      "kind": "text",
+      "content": "#80\n#443\n#596:599\n\n# (Раскомментируйте/добавьте по образцу) единичные порты и диапазоны для проскирования\n"
+    },
+    {
+      "path": "xkeen/port_exclude.lst",
+      "kind": "text",
+      "content": "#\n\n# Одновременно использовать порты проксирования и исключать порты нельзя\n# Приоритет у портов проксирования\n"
+    },
+    {
+      "path": "xkeen/ip_exclude.lst",
+      "kind": "text",
+      "content": "#192.168.0.0/16\n#2001:db8::/32\n\n# Добавьте необходимые IP и подсети без комментария # для исключения их из проксирования\n"
+    }
+  ],
+  "repo": {
+    "owner": "umarcheh001",
+    "name": "xkeen-community-configs"
+  }
+}
