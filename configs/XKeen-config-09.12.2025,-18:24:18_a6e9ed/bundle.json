@@ -1,0 +1,204 @@
+{
+  "version": 1,
+  "generated_at": 1765293857,
+  "files": [
+    {
+      "path": "xray/01_log.json",
+      "kind": "json",
+      "content": {
+        "log": {
+          "access": "/opt/var/log/xray/access.log",
+          "error": "/opt/var/log/xray/error.log",
+          "loglevel": "warning"
+        }
+      }
+    },
+    {
+      "path": "xray/02_dns.json",
+      "kind": "json",
+      "content": {}
+    },
+    {
+      "path": "xray/03_inbounds.json",
+      "kind": "json",
+      "content": {
+        "inbounds": [
+          {
+            "tag": "redirect",
+            "port": 61219,
+            "protocol": "dokodemo-door",
+            "settings": {
+              "network": "tcp",
+              "followRedirect": true
+            },
+            "sniffing": {
+              "enabled": true,
+              "routeOnly": true,
+              "destOverride": [
+                "http",
+                "tls"
+              ]
+            }
+          },
+          {
+            "tag": "tproxy",
+            "port": 61219,
+            "protocol": "dokodemo-door",
+            "settings": {
+              "network": "udp",
+              "followRedirect": true
+            },
+            "streamSettings": {
+              "sockopt": {
+                "tproxy": "tproxy"
+              }
+            },
+            "sniffing": {
+              "enabled": true,
+              "routeOnly": true,
+              "destOverride": [
+                "http",
+                "tls"
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "path": "xray/05_routing.json",
+      "kind": "json",
+      "content": {
+        "routing": {
+          "rules": [
+            {
+              "inboundTag": [
+                "redirect",
+                "tproxy"
+              ],
+              "outboundTag": "block",
+              "type": "field",
+              "network": "udp",
+              "port": "135, 137, 138, 139"
+            },
+            {
+              "inboundTag": [
+                "redirect",
+                "tproxy"
+              ],
+              "outboundTag": "block",
+              "type": "field",
+              "domain": [
+                "appcenter.ms"
+              ]
+            },
+            {
+              "inboundTag": [
+                "redirect",
+                "tproxy"
+              ],
+              "outboundTag": "vless-reality",
+              "type": "field",
+              "ip": [
+                "138.128.136.0/21",
+                "162.158.0.0/15",
+                "172.64.0.0/13",
+                "34.0.0.0/15",
+                "34.2.0.0/16",
+                "34.3.0.0/23",
+                "34.3.2.0/24",
+                "35.192.0.0/12",
+                "35.208.0.0/12",
+                "35.224.0.0/12",
+                "35.240.0.0/13",
+                "5.200.14.128/25",
+                "66.22.192.0/18",
+                "104.16.0.0/12",
+                "13.200.0.0/13",
+                "13.208.0.0/12",
+                "13.224.0.0/12",
+                "13.24.0.0/13",
+                "13.32.0.0/12",
+                "13.48.0.0/13",
+                "13.56.0.0/14",
+                "143.204.0.0/16",
+                "18.128.0.0/9",
+                "18.32.0.0/11",
+                "18.64.0.0/10",
+                "188.114.96.0/22",
+                "204.11.56.0/23",
+                "23.227.32.0/19",
+                "3.128.0.0/9",
+                "8.42.96.0/24",
+                "103.140.28.0/23",
+                "128.116.0.0/17",
+                "141.193.3.0/24",
+                "205.201.62.0/24",
+                "209.206.40.0/21",
+                "ext:geoip_v2fly.dat:google",
+                "ext:geoip_zkeenip.dat:meta",
+                "ext:geoip_zkeenip.dat:telegram",
+                "ext:geoip_zkeenip.dat:discord",
+                "ext:geoip_v2fly.dat:twitter"
+              ]
+            },
+            {
+              "inboundTag": [
+                "redirect",
+                "tproxy"
+              ],
+              "outboundTag": "vless-reality",
+              "type": "field",
+              "domain": [
+                "ext:zkeen.dat:domains",
+                "ext:geosite_zkeen.dat:other",
+                "ext:geosite_zkeen.dat:youtube"
+              ]
+            },
+            {
+              "inboundTag": [
+                "redirect",
+                "tproxy"
+              ],
+              "outboundTag": "direct",
+              "type": "field"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "path": "xray/06_policy.json",
+      "kind": "json",
+      "content": {
+        "policy": {
+          "levels": {
+            "0": {
+              "uplinkOnly": 0,
+              "downlinkOnly": 0
+            }
+          }
+        }
+      }
+    },
+    {
+      "path": "xkeen/port_proxying.lst",
+      "kind": "text",
+      "content": ""
+    },
+    {
+      "path": "xkeen/port_exclude.lst",
+      "kind": "text",
+      "content": ""
+    },
+    {
+      "path": "xkeen/ip_exclude.lst",
+      "kind": "text",
+      "content": ""
+    }
+  ],
+  "repo": {
+    "owner": "umarcheh001",
+    "name": "xkeen-community-configs"
+  }
+}
