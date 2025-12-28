@@ -1,0 +1,245 @@
+{
+  "version": 1,
+  "generated_at": 1766940712,
+  "files": [
+    {
+      "path": "xray/01_log.json",
+      "kind": "json",
+      "content": {
+        "log": {
+          "access": "/opt/var/log/xray/access.log",
+          "error": "/opt/var/log/xray/error.log",
+          "loglevel": "warning"
+        }
+      }
+    },
+    {
+      "path": "xray/02_dns.json",
+      "kind": "json",
+      "content": {}
+    },
+    {
+      "path": "xray/03_inbounds.json",
+      "kind": "json",
+      "content": {
+        "inbounds": [
+          {
+            "tag": "redirect",
+            "port": 61219,
+            "protocol": "dokodemo-door",
+            "settings": {
+              "network": "tcp",
+              "followRedirect": true
+            },
+            "sniffing": {
+              "enabled": true,
+              "destOverride": [
+                "http",
+                "tls"
+              ]
+            }
+          },
+          {
+            "tag": "tproxy",
+            "port": 61219,
+            "protocol": "dokodemo-door",
+            "settings": {
+              "network": "udp",
+              "followRedirect": true
+            },
+            "streamSettings": {
+              "sockopt": {
+                "tproxy": "tproxy"
+              }
+            },
+            "sniffing": {
+              "enabled": true,
+              "destOverride": [
+                "http",
+                "tls"
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "path": "xray/05_routing.json",
+      "kind": "json",
+      "content": {
+        "routing": {
+          "domainStrategy": "IPIfNonMatch",
+          "rules": [
+            {
+              "inboundTag": [
+                "redirect",
+                "tproxy"
+              ],
+              "outboundTag": "direct",
+              "type": "field",
+              "ip": [
+                "127.0.0.0/8",
+                "10.0.0.0/8",
+                "172.16.0.0/12",
+                "192.168.0.0/16",
+                "169.254.0.0/16"
+              ]
+            },
+            {
+              "inboundTag": [
+                "redirect",
+                "tproxy"
+              ],
+              "outboundTag": "block",
+              "type": "field",
+              "network": "udp",
+              "port": "135, 137, 138, 139"
+            },
+            {
+              "inboundTag": [
+                "redirect",
+                "tproxy"
+              ],
+              "outboundTag": "block",
+              "type": "field",
+              "domain": [
+                "appcenter.ms",
+                "google-analytics",
+                "analytics.yandex",
+                "app-measurement.com",
+                "firebase.io",
+                "crashlytics.com",
+                "analytics.google.com",
+                "api.bugsnag.com",
+                "browser.sentry-cdn.com",
+                "app.getsentry.com",
+                "extmaps-api.yandex.net",
+                "appmetrica.yandex.ru",
+                "adfstat.yandex.ru",
+                "metrika.yandex.ru",
+                "offerwall.yandex.net",
+                "adfox.yandex.ru",
+                "ext:geosite_v2fly.dat:category-ads-all",
+                "ext:geosite_v2fly.dat:adobe-ads",
+                "ext:geosite_v2fly.dat:apple-ads",
+                "ext:geosite_v2fly.dat:google@ads",
+                "ext:geosite_v2fly.dat:bytedance@ads",
+                "ext:geosite_v2fly.dat:xiaomitv-ads"
+              ]
+            },
+            {
+              "inboundTag": [
+                "redirect",
+                "tproxy"
+              ],
+              "outboundTag": "vless-reality",
+              "type": "field",
+              "network": "tcp,udp",
+              "port": "80,443,596-599,1400,3478,5222,46420",
+              "ip": [
+                "ext:geoip_zkeenip.dat:meta",
+                "ext:geoip_zkeenip.dat:telegram"
+              ]
+            },
+            {
+              "inboundTag": [
+                "redirect",
+                "tproxy"
+              ],
+              "outboundTag": "vless-reality",
+              "type": "field",
+              "ip": [
+                "ext:geoip_v2fly.dat:netflix",
+                "ext:geoip_v2fly.dat:twitter",
+                "ext:geoip_zkeenip.dat:cloudflare"
+              ]
+            },
+            {
+              "inboundTag": [
+                "redirect",
+                "tproxy"
+              ],
+              "outboundTag": "vless-reality",
+              "type": "field",
+              "domain": [
+                "ext:geosite_v2fly.dat:tiktok",
+                "ext:geosite_v2fly.dat:x",
+                "ext:geosite_v2fly.dat:twitter",
+                "ext:geosite_v2fly.dat:speedtest",
+                "ext:geosite_v2fly.dat:instagram",
+                "ext:geosite_v2fly.dat:google-gemini",
+                "ext:geosite_v2fly.dat:google-deepmind",
+                "ext:geosite_v2fly.dat:openai",
+                "ext:geosite_v2fly.dat:youtube",
+                "ext:geosite_v2fly.dat:google",
+                "ext:geosite_v2fly.dat:tor",
+                "ext:geosite_v2fly.dat:torproject",
+                "ext:geosite_v2fly.dat:category-porn",
+                "ext:geosite_v2fly.dat:discord",
+                "ext:geosite_v2fly.dat:reddit",
+                "ext:geosite_v2fly.dat:roblox",
+                "ext:geosite_v2fly.dat:soundcloud",
+                "ext:geosite_v2fly.dat:linguee",
+                "ext:geosite_v2fly.dat:whatsapp",
+                "ext:geosite_v2fly.dat:telegram",
+                "ext:geosite_zkeen.dat:domains",
+                "ext:geosite_zkeen.dat:politic",
+                "ext:geosite_zkeen.dat:other",
+                "4pda.to",
+                "www.4pda.to",
+                "cs1-4pda.ru",
+                "cs2-4pda.ru",
+                "cs3-4pda.ru",
+                "cs4-4pda.ru",
+                "cs5-4pda.ru",
+                "cub.red",
+                "cub.rip"
+              ]
+            },
+            {
+              "inboundTag": [
+                "redirect",
+                "tproxy"
+              ],
+              "outboundTag": "direct",
+              "type": "field"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "path": "xray/06_policy.json",
+      "kind": "json",
+      "content": {
+        "policy": {
+          "levels": {
+            "0": {
+              "uplinkOnly": 0,
+              "downlinkOnly": 0
+            }
+          }
+        }
+      }
+    },
+    {
+      "path": "xkeen/port_proxying.lst",
+      "kind": "text",
+      "content": ""
+    },
+    {
+      "path": "xkeen/port_exclude.lst",
+      "kind": "text",
+      "content": ""
+    },
+    {
+      "path": "xkeen/ip_exclude.lst",
+      "kind": "text",
+      "content": ""
+    }
+  ],
+  "repo": {
+    "owner": "umarcheh001",
+    "name": "xkeen-community-configs"
+  }
+}
