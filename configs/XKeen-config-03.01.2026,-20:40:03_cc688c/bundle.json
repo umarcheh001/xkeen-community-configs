@@ -1,0 +1,220 @@
+{
+  "version": 1,
+  "generated_at": 1767462001,
+  "files": [
+    {
+      "path": "xray/01_log.json",
+      "kind": "json",
+      "content": {
+        "log": {
+          "access": "/opt/var/log/xray/access.log",
+          "error": "/opt/var/log/xray/error.log",
+          "loglevel": "warning"
+        }
+      }
+    },
+    {
+      "path": "xray/03_inbounds.json",
+      "kind": "json",
+      "content": {
+        "inbounds": [
+          {
+            "tag": "redirect",
+            "port": 61219,
+            "protocol": "dokodemo-door",
+            "settings": {
+              "network": "tcp",
+              "followRedirect": true
+            },
+            "sniffing": {
+              "enabled": true,
+              "routeOnly": true,
+              "destOverride": [
+                "http",
+                "tls"
+              ]
+            }
+          },
+          {
+            "tag": "tproxy",
+            "port": 61219,
+            "protocol": "dokodemo-door",
+            "settings": {
+              "network": "udp",
+              "followRedirect": true
+            },
+            "streamSettings": {
+              "sockopt": {
+                "tproxy": "tproxy"
+              }
+            },
+            "sniffing": {
+              "enabled": true,
+              "routeOnly": true,
+              "destOverride": [
+                "http",
+                "tls"
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "path": "xray/05_routing.json",
+      "kind": "json",
+      "content": {
+        "routing": {
+          "rules": [
+            {
+              "type": "field",
+              "inboundTag": [
+                "redirect",
+                "tproxy"
+              ],
+              "outboundTag": "block",
+              "network": "udp",
+              "port": "443"
+            },
+            {
+              "type": "field",
+              "inboundTag": [
+                "redirect",
+                "tproxy"
+              ],
+              "network": "udp",
+              "port": "19200-19400, 50000-65535",
+              "ip": [
+                "ext:geoip_zkeenip.dat:discord",
+                "ext:geoip_zkeenip.dat:cloudflare"
+              ],
+              "outboundTag": "vless-reality"
+            },
+            {
+              "type": "field",
+              "inboundTag": [
+                "redirect",
+                "tproxy"
+              ],
+              "outboundTag": "vless-reality",
+              "domain": [
+                "2ip.io",
+                "speedtest.selectel.ru",
+                "nvidia.com",
+                "dnsleaktest.com",
+                "bing.com",
+                "ifconfig.me",
+                "msftauth.net",
+                "msftrewards.com",
+                "rewards.bing.com",
+                "ext:geosite_xbox.dat:live",
+                "ext:geosite_v2fly.dat:xbox",
+                "ext:geosite_v2fly.dat:microsoft",
+                "ext:geosite_v2fly.dat:bing",
+                "ext:geosite_zkeen.dat:domains",
+                "ext:geosite_zkeen.dat:other",
+                "ext:geosite_zkeen.dat:youtube",
+                "ext:geosite_v2fly.dat:netflix",
+                "ext:geosite_v2fly.dat:youtube",
+                "ext:geosite_v2fly.dat:spotify",
+                "ext:geosite_v2fly.dat:instagram",
+                "ext:geosite_v2fly.dat:discord",
+                "ext:geosite_v2fly.dat:onedrive",
+                "ext:geosite_v2fly.dat:paypal",
+                "ext:geosite_v2fly.dat:facebook",
+                "ext:geosite_v2fly.dat:google",
+                "ext:geosite_v2fly.dat:twitter"
+              ]
+            },
+            {
+              "type": "field",
+              "inboundTag": [
+                "redirect",
+                "tproxy"
+              ],
+              "outboundTag": "vless-reality",
+              "ip": [
+                "ext:geoip_zkeenip.dat:meta",
+                "ext:geoip_zkeenip.dat:cloudflare",
+                "ext:geoip_zkeenip.dat:amazon",
+                "ext:geoip_zkeenip.dat:google",
+                "ext:geoip_zkeenip.dat:azure",
+                "ext:geoip_zkeenip.dat:cdn77",
+                "ext:geoip_zkeenip.dat:youtube"
+              ]
+            },
+            {
+              "type": "field",
+              "inboundTag": [
+                "redirect",
+                "tproxy"
+              ],
+              "outboundTag": "direct",
+              "protocol": [
+                "bittorrent"
+              ]
+            },
+            {
+              "type": "field",
+              "inboundTag": [
+                "redirect",
+                "tproxy"
+              ],
+              "outboundTag": "direct",
+              "ip": [
+                "127.0.0.0/8",
+                "10.0.0.0/8",
+                "172.16.0.0/12",
+                "192.168.0.0/16",
+                "169.254.0.0/16",
+                "31.129.110.240"
+              ]
+            },
+            {
+              "type": "field",
+              "inboundTag": [
+                "redirect",
+                "tproxy"
+              ],
+              "outboundTag": "direct",
+              "network": "tcp,udp"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "path": "xray/06_policy.json",
+      "kind": "json",
+      "content": {
+        "policy": {
+          "levels": {
+            "0": {
+              "uplinkOnly": 0,
+              "downlinkOnly": 0
+            }
+          }
+        }
+      }
+    },
+    {
+      "path": "xkeen/port_proxying.lst",
+      "kind": "text",
+      "content": "80\n443\n2000:2400\n8443\n19200:19400\n50000:65535\n#596:599\n\n# (Раскомментируйте/добавьте по образцу) единичные порты и диапазоны для проскирования\n"
+    },
+    {
+      "path": "xkeen/port_exclude.lst",
+      "kind": "text",
+      "content": "#\n\n# Одновременно использовать порты проксирования и исключать порты нельзя\n# Приоритет у портов проксирования\n"
+    },
+    {
+      "path": "xkeen/ip_exclude.lst",
+      "kind": "text",
+      "content": "#192.168.0.0/16\n#2001:db8::/32\n\n# Добавьте необходимые IP и подсети без комментария # для исключения их из проксирования\n"
+    }
+  ],
+  "repo": {
+    "owner": "umarcheh001",
+    "name": "xkeen-community-configs"
+  }
+}
