@@ -1,0 +1,164 @@
+{
+  "version": 1,
+  "generated_at": 1771318288,
+  "files": [
+    {
+      "path": "xray/01_log.json",
+      "kind": "json",
+      "content": {
+        "log": {
+          "access": "/opt/var/log/xray/access.log",
+          "error": "/opt/var/log/xray/error.log",
+          "loglevel": "warning"
+        }
+      }
+    },
+    {
+      "path": "xray/02_dns.json",
+      "kind": "json",
+      "content": {}
+    },
+    {
+      "path": "xray/03_inbounds.json",
+      "kind": "json",
+      "content": {
+        "inbounds": [
+          {
+            "tag": "redirect",
+            "port": 61219,
+            "protocol": "dokodemo-door",
+            "settings": {
+              "network": "tcp",
+              "followRedirect": true
+            },
+            "sniffing": {
+              "enabled": true,
+              "destOverride": [
+                "http",
+                "tls"
+              ]
+            }
+          },
+          {
+            "tag": "tproxy",
+            "port": 61219,
+            "protocol": "dokodemo-door",
+            "settings": {
+              "network": "udp",
+              "followRedirect": true
+            },
+            "streamSettings": {
+              "sockopt": {
+                "tproxy": "tproxy"
+              }
+            },
+            "sniffing": {
+              "enabled": true,
+              "destOverride": [
+                "http",
+                "tls"
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "path": "xray/05_routing.json",
+      "kind": "json",
+      "content": {
+        "routing": {
+          "domainStrategy": "IPIfNonMatch",
+          "rules": [
+            {
+              "inboundTag": [
+                "redirect",
+                "tproxy"
+              ],
+              "ip": [
+                "127.0.0.0/8",
+                "10.0.0.0/8",
+                "172.16.0.0/12",
+                "192.168.0.0/16",
+                "169.254.0.0/16"
+              ],
+              "outboundTag": "direct",
+              "type": "field"
+            },
+            {
+              "inboundTag": [
+                "redirect",
+                "tproxy"
+              ],
+              "network": "udp",
+              "port": "135,137,138,139",
+              "outboundTag": "block",
+              "type": "field"
+            },
+            {
+              "inboundTag": [
+                "redirect",
+                "tproxy"
+              ],
+              "protocol": [
+                "bittorrent"
+              ],
+              "outboundTag": "direct",
+              "type": "field"
+            },
+            {
+              "inboundTag": [
+                "redirect",
+                "tproxy"
+              ],
+              "port": "51413, 6881-6889",
+              "outboundTag": "direct",
+              "type": "field"
+            },
+            {
+              "inboundTag": [
+                "redirect",
+                "tproxy"
+              ],
+              "outboundTag": "vless-reality",
+              "type": "field"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "path": "xray/06_policy.json",
+      "kind": "json",
+      "content": {
+        "policy": {
+          "levels": {
+            "0": {
+              "uplinkOnly": 0,
+              "downlinkOnly": 0
+            }
+          }
+        }
+      }
+    },
+    {
+      "path": "xkeen/port_proxying.lst",
+      "kind": "text",
+      "content": ""
+    },
+    {
+      "path": "xkeen/port_exclude.lst",
+      "kind": "text",
+      "content": ""
+    },
+    {
+      "path": "xkeen/ip_exclude.lst",
+      "kind": "text",
+      "content": ""
+    }
+  ],
+  "repo": {
+    "owner": "umarcheh001",
+    "name": "xkeen-community-configs"
+  }
+}
